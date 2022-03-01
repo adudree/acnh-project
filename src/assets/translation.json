@@ -1,0 +1,51 @@
+{
+    "month": {
+        "1": "Janvier",
+        "2": "Février",
+        "3": "Mars",
+        "4": "Avril",
+        "5": "Mai",
+        "6": "Juin",
+        "7": "Juillet",
+        "8": "Août",
+        "9": "Septembre",
+        "10": "Octobre",
+        "11": "Novembre",
+        "12": "Décembre"
+    },
+
+    "hour": {
+        "4am - 9pm": "4h - 21h",
+        "9am - 4pm": "9h - 16h",
+        "4pm - 9am": "16h - 9h",
+        "9pm - 4am": "21h - 4h"
+    },
+
+    "rarity": {
+        "Common": "Commun",
+        "Uncommon": "Peu commun",
+        "Rare": "Rare",
+        "Ultra-rare": "Très rare"
+    },
+
+    "fishSize": {
+        "Smallest (1)": "Minuscule",
+        "Small (2)": "Petit",
+        "Medium (3)": "Moyen",
+        "Medium (4)": "Gros",
+        "Medium with fin (4)": "Moyen (aileron)",
+        "Small (5)": "Très gros",
+        "Largest (6)": "Enorme",
+        "Largest with fin (6)": "Enorme (aileron)"
+    },
+
+    "fishLocation": {
+        "Sea": "Mer",
+        "Sea (when raining or snowing)": "Mer (pluie)",
+        "River": "Rivière",
+        "River (Clifftop)": "Rivière (cascade)",
+        "River (Mouth)": "Rivière (embouchure)",
+        "Pond": "Etang",
+        "Pier": "Ponton"
+    }
+}

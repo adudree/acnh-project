@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <gallery type="poissons"/>
-    <fish id="1" class="myElement" />
+    <gallery id="gallery" type="poissons"/>
+    <fish id="view" class="myElement" />
   </div>
 </template>
 
@@ -14,13 +14,39 @@ export default {
   components: {
     fish,
     gallery
-  }
+  },
 }
 </script>
 
 <style>
-.myElement {
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+#app {
+  height: 100vh;
+}
+#app {
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr; 
+  grid-template-rows: 1fr 1fr 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    "gallery gallery view"
+    "gallery gallery view"
+    "gallery gallery view";   
+}
+#gallery {     
+  grid-area: gallery; 
+  overflow-y:scroll;
+}
+
+#view {
+  grid-area: view;
   border: 1px dotted black;
   padding: 10px;
+  margin: 5px;
 }
+
 </style>
