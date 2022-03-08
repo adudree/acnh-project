@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <gallery id="gallery" type="poissons"/>
+    <gallery id="gallery" :type="type"/>
     <fish id="view" class="myElement" />
   </div>
 </template>
@@ -15,6 +15,11 @@ export default {
     fish,
     gallery
   },
+  data() {
+    return {
+      type: "poissons",
+    }
+  }
 }
 </script>
 

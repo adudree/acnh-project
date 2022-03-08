@@ -28,6 +28,14 @@
 
 <script>
 
+/*
+A CODER :
+- "Dernier mois !"
+- "actuellement capturable" ==> ça va être cho patate
+- Calendrier joli 
+- Heures jolies
+*/
+
 import {getOneFishData} from "@/services/api/acnhAPI.js"
 import translation from "@/assets/translation.json"
 
