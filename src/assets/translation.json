@@ -1,51 +1,99 @@
 {
+  "general": {
     "month": {
-        "1": "Janvier",
-        "2": "Février",
-        "3": "Mars",
-        "4": "Avril",
-        "5": "Mai",
-        "6": "Juin",
-        "7": "Juillet",
-        "8": "Août",
-        "9": "Septembre",
-        "10": "Octobre",
-        "11": "Novembre",
-        "12": "Décembre"
+      "1": "Janvier",
+      "2": "Février",
+      "3": "Mars",
+      "4": "Avril",
+      "5": "Mai",
+      "6": "Juin",
+      "7": "Juillet",
+      "8": "Août",
+      "9": "Septembre",
+      "10": "Octobre",
+      "11": "Novembre",
+      "12": "Décembre"
     },
 
     "hour": {
-        "4am - 9pm": "4h - 21h",
-        "9am - 4pm": "9h - 16h",
-        "4pm - 9am": "16h - 9h",
-        "9pm - 4am": "21h - 4h"
+      "4am - 9pm": "4h - 21h",
+      "9am - 4pm": "9h - 16h",
+      "4pm - 9am": "16h - 9h",
+      "9pm - 4am": "21h - 4h"
     },
 
     "rarity": {
-        "Common": "Commun",
-        "Uncommon": "Peu commun",
-        "Rare": "Rare",
-        "Ultra-rare": "Très rare"
-    },
-
-    "fishSize": {
-        "Smallest (1)": "Minuscule",
-        "Small (2)": "Petit",
-        "Medium (3)": "Moyen",
-        "Medium (4)": "Gros",
-        "Medium with fin (4)": "Moyen (aileron)",
-        "Small (5)": "Très gros",
-        "Largest (6)": "Enorme",
-        "Largest with fin (6)": "Enorme (aileron)"
-    },
-
-    "fishLocation": {
-        "Sea": "Mer",
-        "Sea (when raining or snowing)": "Mer (pluie)",
-        "River": "Rivière",
-        "River (Clifftop)": "Rivière (cascade)",
-        "River (Mouth)": "Rivière (embouchure)",
-        "Pond": "Etang",
-        "Pier": "Ponton"
+      "Common": "Commun",
+      "Uncommon": "Peu commun",
+      "Rare": "Rare",
+      "Ultra-rare": "Très rare"
     }
+  },
+
+  "fish": {
+    "size": {
+      "Smallest (1)": "Minuscule",
+      "Small (2)": "Petit",
+      "Medium (3)": "Moyen",
+      "Medium (4)": "Gros",
+      "Medium with fin (4)": "Moyen (aileron)",
+      "Large (5)": "Gros",
+      "Largest (6)": "Enorme",
+      "Largest with fin (6)": "Enorme (aileron)"
+    },
+
+    "location": {
+      "Sea": "Mer",
+      "Sea (when raining or snowing)": "Mer (pluie)",
+      "River": "Rivière",
+      "River (Clifftop)": "Rivière (falaise)",
+      "River (Mouth)": "Rivière (embouchure)",
+      "River (Clifftop) & Pond": "Rivière (falaise) et étang",
+      "Pond": "Etang",
+      "Pier": "Ponton"
+    }
+  },
+  "insect": {
+    "location": {
+      "Flying": "Dans les airs",
+      "Flying near hybrid flowers": "Près des fleurs hybrides",
+      "Flying by light": "Près des lumières",
+      "Flying (near water)": "Près de l'eau",
+      "On flowers": "Sur les fleurs",
+      "On white flowers": "Sur les fleurs blanches",
+      "Underground": "Dans le sol",
+      "On the ground": "Au sol",
+      "On trees": "Sur les arbres",
+      "Shaking trees": "Dans les arbres",
+      "Dig up from the ground": "...",
+      "On ponds and rivers": "Etangs & rivières",
+      "On tree stumps": "Sur les souches",
+      "On palm trees": "Palmiers",
+      "Under trees": "Sous les arbres",
+      "On rotten food": "Nourriture pourrie",
+      "On the beach": "Sur la plage",
+      "Near trash": "Près des déchets",
+      "On villagers": "Sur les villageois",
+      "On rocks and bush (when raining)": "Rochers et buissons (pluie)",
+      "On beach rocks": "Sur les rochers des plages",
+      "Hitting rocks": "En frappant les rochers"
+    }
+  },
+  "creature": {
+    "size": {
+      "Smallest": "Minuscule",
+      "Small": "Petit",
+      "Medium": "Moyen",
+      "Large": "Grand",
+      "Largest": "Très grand"
+    },
+    "speed": {
+      "Stationary": "Immobile",
+      "Very slow": "Très lent",
+      "Slow": "Lent",
+      "Medium": "Moyen",
+      "Fast": "Rapide",
+      "Very fast": "Très rapide"
+    }
+  }
 }
