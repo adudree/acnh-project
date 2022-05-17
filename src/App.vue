@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    {{ bebetopedie }}
     <myHeader id="header" />
     <gallery id="gallery" :type="type" :isBebetopedie="bebetopedie" />
     <card
@@ -15,7 +14,6 @@
 
 <script>
 import card from "./components/card.vue";
-
 import gallery from "./components/gallery.vue";
 import myHeader from "./components/header.vue";
 import myFooter from "./components/footer.vue";

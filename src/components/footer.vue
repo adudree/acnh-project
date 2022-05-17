@@ -1,5 +1,5 @@
 <template>
-    <div></div>
+    <div><p>Fait avec ♥ par Audrey Martin</p></div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style scoped>
-.foot {
-    background: blue;
+p {
+    text-align: center;
 }
 </style>

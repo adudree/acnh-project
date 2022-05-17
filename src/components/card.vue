@@ -1,56 +1,36 @@
 <template>
   <div v-if="isElementSelected">
-    {{elementData.shadow}}
-    <img :src="elementData.image_uri" style="width: 100%" />
+    <img :src="elementData.image_uri" class="imgCard" style="" />
     <h1>{{ elementData.name["name-EUfr"] }}</h1>
-    <ul v-if="isBebetopedie">
-      <li>
-        Période :
-        <span v-if="elementData.availability['isAllYear']">Toute l'année</span>
-        <span v-else>{{ elementData.availability["month-northern"] }}</span>
-      </li>
-      <li>
-        Heure :
-        <span v-if="elementData.availability['isAllDay']"
-          >Toute la journée</span
-        >
-        <span v-else>{{
-          generalTranslation.hour[elementData.availability["time"]]
-        }}</span>
-      </li>
-      <li v-if="type != 'créatures marines'">
-        Lieu :
-        {{ elementTranslation.location[elementData.availability["location"]] }}
-      </li>
-      <li v-if="type != 'insectes'">
-        Taille :
-        {{ elementTranslation.size[elementData.shadow] }}
-      </li>
-      <li v-if="type == 'créatures marines'">
-        Vitesse : {{ elementTranslation.speed[elementData.speed] }}
-      </li>
-      <li v-if="type != 'créatures marines'">
-        Rareté :
-        {{ generalTranslation.rarity[elementData.availability["rarity"]] }}
-      </li>
-      <li>Prix : {{ elementData.price }} clochettes</li>
-      <li v-if="type == 'poissons'">
-        Prix (Pollux) : {{ elementData["price-cj"] }} clochettes
-      </li>
-      <li v-else-if="type == 'insectes'">
-        Prix (Djason) : {{ elementData["price-flick"] }} clochettes
-      </li>
-      <li v-if="isAvailable">Actuellement capturable</li>
-      <li v-if="isLastMonth">Dernier mois !</li>
-    </ul>
-    <ul v-else-if="type == 'fossiles'">
-      <li>Prix : {{ elementData["price"] }} clochettes</li>
-    </ul>
-    <ul v-else>
-      <li>Prix de vente : {{ elementData["sell-price"] }} clochettes</li>
-      <li v-if="elementData.hasFake">! Contrefaçon !</li>
-      <li v-else>Pas de contrefaçon.</li>
-    </ul>
+
+    <fish
+      v-if="type == 'poissons'"
+      :element="elementData"
+      :isAvailable="isAvailable"
+      :isLastMonth="isLastMonth"
+    />
+
+    <insect
+      v-else-if="type == 'insectes'"
+      :element="elementData"
+      :isAvailable="isAvailable"
+      :isLastMonth="isLastMonth"
+    />
+
+    <creature
+      v-else-if="type == 'créatures marines'"
+      :element="elementData"
+      :isAvailable="isAvailable"
+      :isLastMonth="isLastMonth"
+    />
+
+    <fossil v-else-if="type == 'fossiles'" />
+
+    <art
+      v-else-if="type == `oeuvres d'art`"
+      :element="elementData"
+      :hasFake="elementData.hasFake"
+    />
   </div>
   <div v-else>
     <p>Veuillez sélectionner un élément.</p>
@@ -58,12 +38,6 @@
 </template>
 
 <script>
-/*
-A CODER :
-- Calendrier joli 
-- Heures jolies + heures parsées et traduites
-*/
-
 import {
   getOneFishData,
   getOneBugData,
@@ -71,26 +45,31 @@ import {
   getOneFossilData,
   getOneArtData,
 } from "@/services/api/acnhAPI.js";
-import translation from "@/assets/translation.json";
+
+import fish from "./card/fish.vue";
+import insect from "./card/insect.vue";
+import creature from "./card/creature.vue";
+import fossil from "./card/fossil.vue";
+import art from "./card/art.vue";
 
 export default {
   name: "card",
+  components: {
+    fish,
+    insect,
+    creature,
+    fossil,
+    art,
+  },
   props: {
     type: String,
   },
   data() {
     return {
-      elementID: null,
       elementData: [],
       isAvailable: false,
       isLastMonth: false,
       isElementSelected: false,
-      generalTranslation: translation.general,
-      fishTranslation: translation.fish,
-      creatureTranslation: translation.creature,
-      insectTranslation: translation.insect,
-      elementTranslation: null,
-      isBebetopedie: true,
     };
   },
 
@@ -102,10 +81,7 @@ export default {
 
   beforeMount() {
     this.$root.$on("element-to-render", (id) => {
-      this.elementID = id;
-      if (this.elementID) {
-        this.getAData(this.elementID);
-      }
+      this.getAData(id);
     });
     this.$root.$on("available", (bool) => {
       this.isAvailable = bool;
@@ -116,35 +92,26 @@ export default {
   },
 
   methods: {
-    getAData: async function () {
+    getAData: async function (id) {
       switch (this.type) {
         case "poissons":
-          this.elementData = await getOneFishData(this.elementID);
-          this.elementTranslation = this.fishTranslation;
-          this.isBebetopedie = true;
+          this.elementData = await getOneFishData(id);
           break;
         case "insectes":
-          this.elementData = await getOneBugData(this.elementID);
-          this.elementTranslation = this.insectTranslation;
-          this.isBebetopedie = true;
+          this.elementData = await getOneBugData(id);
           break;
         case "créatures marines":
-          this.elementData = await getOneCreatureData(this.elementID);
-          this.elementTranslation = this.creatureTranslation;
-          this.isBebetopedie = true;
+          this.elementData = await getOneCreatureData(id);
           break;
         case "fossiles":
-          this.elementData = await getOneFossilData(this.elementID);
-          this.isBebetopedie = false;
+          this.elementData = await getOneFossilData(id);
           break;
         case "oeuvres d'art":
-          this.elementData = await getOneArtData(this.elementID);
-          this.isBebetopedie = false;
+          this.elementData = await getOneArtData(id);
           break;
         default:
           break;
       }
-
       this.isElementSelected = true;
     },
   },
@@ -152,4 +119,11 @@ export default {
 </script>
 
 <style scoped>
+.imgCard {
+  max-height: 40%;
+  max-width: 100%;
+  display: block;
+  margin: auto;
+  border: 1px solid black;
+}
 </style>

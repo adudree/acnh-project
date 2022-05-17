@@ -1,47 +1,39 @@
 <template>
   <div id="gallery">
-    <h1>tous les {{ type }}</h1>
-    {{isBebetopedie}}
+    <h1>{{ type }} [{{ museumCounter }}/{{ listData.length }}]</h1>
+
     <div class="trier">
       <label>Trier par : </label>
 
-      <input
-        type="radio"
-        id="identifiant"
-        value="identifiant"
-        v-model="sortBy"
-      />
-      <label for="identifiant">Identifiant</label>
-
-      <input type="radio" id="name" value="name" v-model="sortBy" />
-      <label for="name">Nom</label>
-
-      <input type="radio" id="price" value="price" v-model="sortBy" />
-      <label for="price">Prix</label>
+      <filters nameFilter="identifier" msg="Identifiant" v-model="sortBy" />
+      <filters nameFilter="name" msg="Nom" v-model="sortBy" />
+      <filters nameFilter="price" msg="Prix" v-model="sortBy" />
 
       <br />
-      <div v-if="isBebetopedie">
-
       <label>Sélectionner :</label>
-      <input type="radio" id="all" value="all" v-model="selectBy" />
-      <label for="all">Tous</label>
 
-      <input
-        type="radio"
-        id="capturable"
-        value="capturable"
+      <filters nameFilter="all" msg="Tous" v-model="selectBy" />
+      <filters nameFilter="captured" msg="Récupérés" v-model="selectBy" />
+      <filters nameFilter="noCaptured" msg="A récupérer" v-model="selectBy" />
+
+      <filters
+        nameFilter="capturable"
+        msg="Capturable"
         v-model="selectBy"
+        v-if="isBebetopedie"
       />
-      <label for="capturable">Actuellement capturable</label>
-
-      <input type="radio" id="lastMonth" value="lastMonth" v-model="selectBy" />
-      <label for="lastMonth">Dernier mois !</label>
-      </div>
+      
+      <filters
+        nameFilter="lastMonth"
+        msg="Dernier mois !"
+        v-model="selectBy"
+        v-if="isBebetopedie"
+      />
 
       <input type="text" v-model="search" placeholder="Rechercher..." />
     </div>
 
-    <div id="liste">
+    <div v-if="sortedList.length" id="liste">
       <listElement
         v-for="element in sortedList"
         :key="element.id"
@@ -50,19 +42,16 @@
         :icon="element.icon_uri"
         :lastMonth="isLastMonth[element.id]"
         :capturable="isAvailable[element.id]"
+        :state="state[type][element.id]"
         @click.native="selectOneElement(element.id)"
+        @changeState="onChangeState"
       />
     </div>
-
-    <p v-if="!sortedList.length">Pas de résultat.</p>
+    <p v-else>Pas de résultat.</p>
   </div>
 </template>
 
 <script>
-/*
-- Filtre "capturé / non capturé" [plus tard]
-*/
-
 import {
   getFishesData,
   getBugsData,
@@ -70,27 +59,38 @@ import {
   getFossilsData,
   getArtsData,
 } from "@/services/api/acnhAPI.js";
+
 import listElement from "./gallery/listElement.vue";
+import filters from "./gallery/filters.vue";
 
 export default {
   name: "gallery",
   components: {
     listElement,
+    filters,
   },
 
   props: {
     type: String,
-    isBebetopedie: Boolean
+    isBebetopedie: Boolean,
   },
 
   data() {
     return {
       listData: [],
       search: "",
-      sortBy: "identifiant",
+      sortBy: "identifier",
       selectBy: "all",
       isAvailable: [],
       isLastMonth: [],
+      state: {
+        poissons: [],
+        insectes: [],
+        "créatures marines": [],
+        fossiles: [],
+        "oeuvres d'art": [],
+      },
+      museumCounter: 0,
     };
   },
 
@@ -114,12 +114,19 @@ export default {
     type: function () {
       this.getAllData(this.type);
       this.resetFilters();
-      this.isAvailable = []
-      this.isLastMonth = []
+      this.isAvailable = [];
+      this.isLastMonth = [];
+      this.museumCounter = 0;
     },
+    state: function () {
+      this.counterInMuseum();
+    },
+    deep: true,
   },
 
   methods: {
+    // =============== SORT & FILTERS =============== //
+
     filterBy: function (parameter) {
       switch (parameter) {
         case "lastMonth":
@@ -128,6 +135,12 @@ export default {
         case "capturable":
           return (a) => this.isAvailable[a.id];
 
+        case "captured":
+          return (a) => this.state[this.type][a.id] != "noCaptured";
+
+        case "noCaptured":
+          return (a) => this.state[this.type][a.id] == "noCaptured";
+
         default:
           return (a) => a;
       }
@@ -135,7 +148,7 @@ export default {
 
     compareBy: function (parameter) {
       switch (parameter) {
-        case "identifiant":
+        case "identifier":
           return (a, b) => a.id - b.id;
 
         case "name":
@@ -173,22 +186,16 @@ export default {
 
       this.listData = Object.values(ObjectData);
 
-      if (this.type == "fossiles") {
-        this.listData.map((x, i) => (x.id = i + 1));
-      }
-
-      if (this.isBebetopedie)
-        this.setAvailability();
-      else 
-        this.listData.map((x) => (x.icon_uri = x.image_uri));
-
+      this.setInformation();
     },
 
     resetFilters: function () {
       this.search = "";
-      this.sortBy = "identifiant";
+      this.sortBy = "identifier";
       this.selectBy = "all";
     },
+
+    // ================ AVAILABILITY ================ //
 
     setAvailability: function () {
       const d = new Date();
@@ -198,32 +205,84 @@ export default {
       this.listData.forEach((element) => {
         if (element.availability["month-array-northern"].includes(m)) {
           if (element.availability["time-array"].includes(h)) {
-            this.isAvailable[element.id] = true;    // actuellement capturable (heure)
+            this.isAvailable[element.id] = true; // actuellement capturable (heure)
           }
 
           if (!element.availability["month-array-northern"].includes(m + 1)) {
-            this.isLastMonth[element.id] = true;    // dernier mois (mois) 
+            this.isLastMonth[element.id] = true; // dernier mois (mois)
           } else {
-            this.isLastMonth[element.id] = false;   // pas dernier mois
+            this.isLastMonth[element.id] = false; // pas dernier mois
           }
         } else {
-          this.isAvailable[element.id] = false;     // pas actuellement capturable (mois)
+          this.isAvailable[element.id] = false; // pas actuellement capturable (mois)
         }
       });
     },
 
     selectOneElement: function (id) {
+      this.$root.$emit("state", this.state[this.type][id]);
       if (this.type != "fossiles") {
         this.$root.$emit("element-to-render", id);
         if (this.isBebetopedie) {
           this.$root.$emit("available", this.isAvailable[id]);
           this.$root.$emit("last-month", this.isLastMonth[id]);
         }
-      }
-      else {
-        const elemToRender = this.sortedList[id]
+      } else {
+        const elemToRender = this.sortedList[id];
         this.$root.$emit("element-to-render", elemToRender["file-name"]);
       }
+    },
+
+    // =============== STATE OF CAPTURE ============== //
+
+    setInformation: function () {
+      if (this.type == "fossiles") {
+        // set id des fossiles (absents de l'API)
+        this.listData.map((x, i) => (x.id = i + 1));
+      }
+
+      if (this.isBebetopedie)
+        // actuellement capturable & dernier mois
+        this.setAvailability();
+      // seulement pour fossiles & art
+      else this.listData.map((x) => (x.icon_uri = x.image_uri));
+
+      this.setState();
+      this.initCounter();
+    },
+
+    setState: function () {
+      this.listData.forEach((element) => {
+        if (
+          this.$cookies.get("this.state[" + this.type + "][" + element.id + "]")
+        ) {
+          this.state[this.type][element.id] = this.$cookies.get(
+            "this.state[" + this.type + "][" + element.id + "]"
+          );
+        }
+        if (!this.state[this.type][element.id]) {
+          this.state[this.type][element.id] = "noCaptured";
+        }
+      });
+    },
+
+    onChangeState: function (value) {
+      this.state[this.type].splice(value.id, 1, value.newState);
+      this.$cookies.set(
+        "this.state[" + this.type + "][" + value.id + "]",
+        value.newState,
+        "30d"
+      );
+      if (value.newState == "museum") this.museumCounter++;
+      else if (value.newState == "noCaptured") this.museumCounter--;
+    },
+
+    initCounter: function () {
+      this.state[this.type].forEach((element) => {
+        if (element == "museum") {
+          this.museumCounter++;
+        }
+      });
     },
   },
 };

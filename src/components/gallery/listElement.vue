@@ -1,9 +1,14 @@
 <template>
-  <div class="dabutton">
+  <div :id="'element' + id" class="dabutton">
     <img :src="icon" class="iconList" />
-    <p>{{ name }}</p>
-    <p v-if="lastMonth">dernier mois !</p>
-    <p v-if="capturable">actuellement capturable</p>
+    <div>
+      <p>{{ name }}</p>
+    </div>
+    <div><p v-if="lastMonth">dernier mois !</p></div>
+    <div><p v-if="capturable">capturable</p></div>
+    <div :id="'capture' + id" :class="['state', state]" @click="switchCapture">
+      {{stateCaptured[state]}}
+    </div>
   </div>
 </template>
 
@@ -13,17 +18,39 @@ export default {
 
   props: {
     name: String,
+    state: String,
     icon: String,
     lastMonth: Boolean,
     capturable: Boolean,
     id: Number,
   },
+  data() {
+    return {
+      stateCaptured: {
+        noCaptured: "-",
+        captured: "Inventaire",
+        museum: "Au musée",
+      },
+    };
+  },
 
+  methods: {
+    switchCapture: function () {
+      let stateToEmit = "";
+
+      if (this.state == "noCaptured")     stateToEmit = "captured";
+      else if (this.state == "captured")  stateToEmit = "museum";
+      else                                stateToEmit = "noCaptured";
+      
+      this.$emit("changeState", {
+        id: this.id,
+        newState: stateToEmit
+      });
+    },
+  },
 };
-
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .iconList {
   width: 40px;
@@ -39,6 +66,7 @@ export default {
   list-style-type: none;
   transition: 0.3s ease-out;
   display: flex;
+  justify-content: space-between;
 }
 
 .dabutton:hover {
@@ -50,7 +78,40 @@ export default {
   background: #ec849c;
 }
 
-.dabutton * {
+.dabutton div,
+.dabutton img {
   margin: auto 5px;
+  padding: 5px;
+}
+
+.dabutton div {
+  width: 20%;
+}
+
+.test {
+  background: red;
+}
+
+.state {
+  padding: 5px;
+  width: 100px;
+  text-align: center;
+  color: #fff;
+  border-radius: 50px;
+}
+
+.noCaptured {
+  background: grey;
+  border: 1px solid grey;
+}
+
+.museum {
+  background: rgb(45, 194, 45);
+  border: 1px solid rgb(45, 194, 45);
+}
+
+.captured {
+  background: blue;
+  border: 1px solid blue;
 }
 </style>
