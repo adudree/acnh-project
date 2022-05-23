@@ -1,7 +1,7 @@
 <template>
-  <div v-if="isElementSelected">
+  <div v-if="isElementSelected" :class="['card', border]">
+    <h2 :class="background">{{ elementData.name["name-EUfr"] }}</h2>
     <img :src="elementData.image_uri" class="imgCard" style="" />
-    <h1>{{ elementData.name["name-EUfr"] }}</h1>
 
     <fish
       v-if="type == 'poissons'"
@@ -24,13 +24,15 @@
       :isLastMonth="isLastMonth"
     />
 
-    <fossil v-else-if="type == 'fossiles'" />
+    <fossil v-else-if="type == 'fossiles'" :element="elementData" />
 
     <art
       v-else-if="type == `oeuvres d'art`"
       :element="elementData"
       :hasFake="elementData.hasFake"
     />
+
+    <div :class="['state', background]">{{msgState}}</div>
   </div>
   <div v-else>
     <p>Veuillez sélectionner un élément.</p>
@@ -70,6 +72,9 @@ export default {
       isAvailable: false,
       isLastMonth: false,
       isElementSelected: false,
+      border: "borderGrey",
+      background: "bgGrey",
+      msgState: "A récupérer"
     };
   },
 
@@ -89,9 +94,32 @@ export default {
     this.$root.$on("last-month", (bool) => {
       this.isLastMonth = bool;
     });
+    this.$root.$on("state", (state) => {
+      this.setState(state)
+    });
   },
 
   methods: {
+    setState : function(state) {
+      switch(state) 
+      {
+        case "museum": 
+          this.border = "borderGreen";
+          this.background = "bgGreen";
+          this.msgState = "Au musée";
+          break; 
+        case "captured":
+          this.border = "borderBlue"; 
+          this.background = "bgBlue";
+          this.msgState = "Capturé";
+          break; 
+        default: 
+          this.border = "borderGrey"; 
+          this.background = "bgGrey";
+          this.msgState = "A récupérer";
+          break; 
+      }
+    },
     getAData: async function (id) {
       switch (this.type) {
         case "poissons":
@@ -119,11 +147,56 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  margin: 30px;
+  padding: 30px 0;
+  width: 25vw;
+  border: 5px solid;
+  border-radius: 33px;
+  background: #e8c7b1;
+  position: relative;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.card * {
+  margin-top: 20px;
+}
 .imgCard {
   max-height: 40%;
   max-width: 100%;
   display: block;
   margin: auto;
-  border: 1px solid black;
+  background: #f9f2d7;
+  border-radius: 35px;
 }
+
+h2 {
+  position: absolute;
+  top: -40px;
+  background: red;
+  color: #fff;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  font-size: 1.3em;
+  text-align: center;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.state {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  color: #fff;
+  border-radius: 0 0 25px 25px;
+}
+
+.borderGrey {border-color: #bababa;}
+.borderBlue {border-color: #61cac6;}
+.borderGreen {border-color:  #4ec78c;}
+.bgGrey {background: #bababa;}
+.bgBlue {background: #61cac6;}
+.bgGreen {background: #4ec78c;}
 </style>

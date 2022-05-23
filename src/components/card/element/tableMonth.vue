@@ -1,24 +1,18 @@
 <template>
-  <table>
-    <tr>
-      <td id="jan">Janv.</td>
-      <td id="fev">Fev.</td>
-      <td id="mar">Mars</td>
-      <td id="apr">Avril</td>
-    </tr>
-    <tr>
-      <td id="may">Mai</td>
-      <td id="jun">Juin</td>
-      <td id="jul">Juil.</td>
-      <td id="aug">Août</td>
-    </tr>
-    <tr>
-      <td id="sep">Sept.</td>
-      <td id="oct">Oct.</td>
-      <td id="nov">Nov.</td>
-      <td id="dec">Déc.</td>
-    </tr>
-  </table>
+  <div class="months">
+      <div id="jan">J</div>
+      <div id="fev">F</div>
+      <div id="mar">M</div>
+      <div id="apr">A</div>
+      <div id="may">M</div>
+      <div id="jun">J</div>
+      <div id="jul">J</div>
+      <div id="aug">A</div>
+      <div id="sep">S</div>
+      <div id="oct">O</div>
+      <div id="nov">N</div>
+      <div id="dec">D</div>
+    </div>
 </template>
 
 <script>
@@ -83,6 +77,7 @@ export default {
 
       for (let i = 1; i <= 12; i++) {
         if (document.getElementById(allMonth[i])) {
+          
           document.getElementById(allMonth[i]).classList.remove("available");
         }
       }
@@ -91,8 +86,24 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.months {
+  display: flex;
+  width: 80%;
+  margin: auto;
+  border: 1px solid #B18465;
+}
+
+.months div {
+  flex-grow: 1;
+  flex-shrink: 3; 
+  border: 1px solid #B18465;
+  color: #B18465;
+  text-align: center;
+  font-weight: bold;
+}
+
 .available {
-  background: red;
+  background: #F9F2D7;
 }
 </style>

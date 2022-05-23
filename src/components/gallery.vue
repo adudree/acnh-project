@@ -8,6 +8,7 @@
       <filters nameFilter="identifier" msg="Identifiant" v-model="sortBy" />
       <filters nameFilter="name" msg="Nom" v-model="sortBy" />
       <filters nameFilter="price" msg="Prix" v-model="sortBy" />
+      <input type="text" v-model="search" placeholder="Rechercher..." class="searchBar" />
 
       <br />
       <label>Sélectionner :</label>
@@ -22,7 +23,7 @@
         v-model="selectBy"
         v-if="isBebetopedie"
       />
-      
+
       <filters
         nameFilter="lastMonth"
         msg="Dernier mois !"
@@ -30,7 +31,6 @@
         v-if="isBebetopedie"
       />
 
-      <input type="text" v-model="search" placeholder="Rechercher..." />
     </div>
 
     <div v-if="sortedList.length" id="liste">
@@ -40,8 +40,8 @@
         :id="element.id"
         :name="element.name['name-EUfr']"
         :icon="element.icon_uri"
-        :lastMonth="isLastMonth[element.id]"
-        :capturable="isAvailable[element.id]"
+        :lastMonth="isLastMonth[type][element.id]"
+        :capturable="isAvailable[type][element.id]"
         :state="state[type][element.id]"
         @click.native="selectOneElement(element.id)"
         @changeState="onChangeState"
@@ -81,9 +81,21 @@ export default {
       search: "",
       sortBy: "identifier",
       selectBy: "all",
-      isAvailable: [],
-      isLastMonth: [],
       state: {
+        poissons: [],
+        insectes: [],
+        "créatures marines": [],
+        fossiles: [],
+        "oeuvres d'art": [],
+      },
+      isLastMonth: {
+        poissons: [],
+        insectes: [],
+        "créatures marines": [],
+        fossiles: [],
+        "oeuvres d'art": [],
+      },
+      isAvailable: {
         poissons: [],
         insectes: [],
         "créatures marines": [],
@@ -106,16 +118,15 @@ export default {
     },
   },
 
-  created() {
+  mounted() {
     this.getAllData(this.type);
   },
 
   watch: {
-    type: function () {
-      this.getAllData(this.type);
+    type: function (newt, oldt) {
+      console.log(newt, oldt);
+      this.getAllData(newt);
       this.resetFilters();
-      this.isAvailable = [];
-      this.isLastMonth = [];
       this.museumCounter = 0;
     },
     state: function () {
@@ -130,10 +141,10 @@ export default {
     filterBy: function (parameter) {
       switch (parameter) {
         case "lastMonth":
-          return (a) => this.isLastMonth[a.id];
+          return (a) => this.isLastMonth[this.type][a.id];
 
         case "capturable":
-          return (a) => this.isAvailable[a.id];
+          return (a) => this.isAvailable[this.type][a.id];
 
         case "captured":
           return (a) => this.state[this.type][a.id] != "noCaptured";
@@ -205,16 +216,16 @@ export default {
       this.listData.forEach((element) => {
         if (element.availability["month-array-northern"].includes(m)) {
           if (element.availability["time-array"].includes(h)) {
-            this.isAvailable[element.id] = true; // actuellement capturable (heure)
+            this.isAvailable[this.type][element.id] = true; // actuellement capturable (heure)
           }
 
           if (!element.availability["month-array-northern"].includes(m + 1)) {
-            this.isLastMonth[element.id] = true; // dernier mois (mois)
+            this.isLastMonth[this.type][element.id] = true; // dernier mois (mois)
           } else {
-            this.isLastMonth[element.id] = false; // pas dernier mois
+            this.isLastMonth[this.type][element.id] = false; // pas dernier mois
           }
         } else {
-          this.isAvailable[element.id] = false; // pas actuellement capturable (mois)
+          this.isAvailable[this.type][element.id] = false; // pas actuellement capturable (mois)
         }
       });
     },
@@ -224,8 +235,8 @@ export default {
       if (this.type != "fossiles") {
         this.$root.$emit("element-to-render", id);
         if (this.isBebetopedie) {
-          this.$root.$emit("available", this.isAvailable[id]);
-          this.$root.$emit("last-month", this.isLastMonth[id]);
+          this.$root.$emit("available", this.isAvailable[this.type][id]);
+          this.$root.$emit("last-month", this.isLastMonth[this.type][id]);
         }
       } else {
         const elemToRender = this.sortedList[id];
@@ -241,9 +252,11 @@ export default {
         this.listData.map((x, i) => (x.id = i + 1));
       }
 
-      if (this.isBebetopedie)
+      if (this.isBebetopedie) {
         // actuellement capturable & dernier mois
+
         this.setAvailability();
+      }
       // seulement pour fossiles & art
       else this.listData.map((x) => (x.icon_uri = x.image_uri));
 
@@ -289,6 +302,10 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  color: #b18465;
+  font-weight: bold;
+}
 #gallery {
   display: flex;
   flex-direction: column;
@@ -296,5 +313,36 @@ export default {
 #liste {
   max-height: 100%;
   overflow-y: scroll;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 2em; /* Total width including `border-width` of scrollbar thumb */
+  height: 0;
+}
+::-webkit-scrollbar-thumb {
+  height: 1em;
+  border: 0.5em solid rgba(0, 0, 0, 0); /* Transparent border together with `background-clip: padding-box` does the trick */
+  background-clip: padding-box;
+  -webkit-border-radius: 1em;
+  background-color: rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.025);
+}
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+.searchBar {
+  border: none;
+  border-radius: 33px;
+  font-family: "Mali", cursive;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+  padding: 5px 10px;
+  margin: 0 30px ;
 }
 </style>

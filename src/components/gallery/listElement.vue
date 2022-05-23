@@ -1,50 +1,66 @@
 <template>
   <div :id="'element' + id" class="dabutton">
     <img :src="icon" class="iconList" />
-    <div>
-      <p>{{ name }}</p>
-    </div>
-    <div><p v-if="lastMonth">dernier mois !</p></div>
-    <div><p v-if="capturable">capturable</p></div>
-    <div :id="'capture' + id" :class="['state', state]" @click="switchCapture">
-      {{stateCaptured[state]}}
-    </div>
+
+    <p>{{ name }}</p>
+
+    <tagElement v-if="lastMonth" :lastMonth="lastMonth" class="tag" />
+    <tagElement v-else-if="test" :capturable="capturable" class="tag" />
+
+    <tagElement
+      :id="'capture' + id"
+      @click.native="switchCapture"
+      :state="state"
+      class="state"
+    />
   </div>
 </template>
 
 <script>
+import tagElement from "./tagElement.vue";
+
 export default {
   name: "listElement",
+  components: {
+    tagElement,
+  },
 
   props: {
     name: String,
     state: String,
     icon: String,
-    lastMonth: Boolean,
-    capturable: Boolean,
+    lastMonth: {
+      type: Boolean,
+      default: false
+    },
+    capturable: {
+      type: Boolean,
+      default: false
+    },
     id: Number,
   },
   data() {
     return {
-      stateCaptured: {
-        noCaptured: "-",
-        captured: "Inventaire",
-        museum: "Au musée",
-      },
-    };
+      test: this.capturable,
+    }
+  },
+  watch: {
+    name: function() {
+      this.test = this.capturable
+    }
   },
 
   methods: {
     switchCapture: function () {
       let stateToEmit = "";
 
-      if (this.state == "noCaptured")     stateToEmit = "captured";
-      else if (this.state == "captured")  stateToEmit = "museum";
-      else                                stateToEmit = "noCaptured";
-      
+      if (this.state == "noCaptured") stateToEmit = "captured";
+      else if (this.state == "captured") stateToEmit = "museum";
+      else stateToEmit = "noCaptured";
+
       this.$emit("changeState", {
         id: this.id,
-        newState: stateToEmit
+        newState: stateToEmit,
       });
     },
   },
@@ -54,64 +70,55 @@ export default {
 <style scoped>
 .iconList {
   width: 40px;
-  border: 1px solid;
+  border: 2px solid #ba9173;
   background: #fff;
   border-radius: 50%;
+  grid-area: 1 / 1 / 2 / 2;
 }
 .dabutton {
-  border: 1px solid black;
-  border-radius: 50px;
-  margin: 10px 0;
-  padding: 10px;
+  display: grid;
+  grid-template-columns: 0.3fr repeat(3, 1fr);
+  grid-template-rows: 100% repeat(4, 1fr);
+  grid-column-gap: 10px;
+
+  background: #e8c7b1;
+  border: 2px solid #ba9173;
+  
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 18px;
+  width: 50vw;
+  margin:  22px auto;
+  padding: 5px;
   list-style-type: none;
   transition: 0.3s ease-out;
-  display: flex;
-  justify-content: space-between;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+p {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.tag {
+  grid-area: 1 / 3 / 2 / 4;
 }
 
 .dabutton:hover {
-  background: #ffabbf;
+  background: #997055;
   cursor: pointer;
 }
 
 .dabutton:focus {
-  background: #ec849c;
+  background: #997055;
 }
 
-.dabutton div,
-.dabutton img {
+.dabutton * {
   margin: auto 5px;
-  padding: 5px;
-}
-
-.dabutton div {
-  width: 20%;
-}
-
-.test {
-  background: red;
 }
 
 .state {
-  padding: 5px;
-  width: 100px;
-  text-align: center;
-  color: #fff;
-  border-radius: 50px;
+  grid-area: 1 / 4 / 2 / 5;
 }
 
-.noCaptured {
-  background: grey;
-  border: 1px solid grey;
-}
 
-.museum {
-  background: rgb(45, 194, 45);
-  border: 1px solid rgb(45, 194, 45);
-}
-
-.captured {
-  background: blue;
-  border: 1px solid blue;
-}
 </style>

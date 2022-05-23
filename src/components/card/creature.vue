@@ -21,7 +21,7 @@
     <property prop="Vitesse" :value="translation.speed[element.speed]" />
 
     <!-- Price -->
-    <property prop="Prix" :value="element.price + ' clochettes'" />
+    <property prop="Prix" :value="element.price + ' clo.'" />
 
     <tag tagName="available" :isDisplayable="isAvailable" />
     <tag tagName="lastMonth" :isDisplayable="isLastMonth" />

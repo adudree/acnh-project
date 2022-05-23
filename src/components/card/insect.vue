@@ -26,10 +26,10 @@
     />
 
     <!-- Price -->
-    <property prop="Prix" :value="element.price + ' clochettes'" />
+    <property prop="Prix" :value="element.price + ' clo.'" />
     <property
       prop="Prix (Djason)"
-      :value="element['price-flick'] + ' clochettes'"
+      :value="element['price-flick'] + ' clo.'"
     />
 
     <tag tagName="available" :isDisplayable="isAvailable" />

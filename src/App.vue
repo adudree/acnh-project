@@ -51,15 +51,18 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Mali&display=swap");
+
 html,
 body {
   margin: 0;
   padding: 0;
+  font-family: "Mali", cursive;
+  background: #F5EDE7;
 }
+
 #app {
   height: 100vh;
-}
-#app {
   display: grid;
   grid-template-columns: 0.7fr 1.3fr 1fr;
   grid-template-rows: 0.3fr 1.6fr 1fr 1.6fr 0.2fr;
@@ -71,15 +74,14 @@ body {
     "gallery gallery view"
     "footer footer footer";
 }
+
 #gallery {
   grid-area: gallery;
+  padding: 15px;
 }
 
 #view {
   grid-area: view;
-  border: 1px dotted black;
-  padding: 10px;
-  margin: 5px;
 }
 
 #header {

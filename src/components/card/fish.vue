@@ -35,8 +35,8 @@
       />
 
       <!-- Price -->
-      <property prop="Prix" :value="element.price + ' clochettes'" />
-      <property prop="Prix (Pollux)" :value="element['price-cj'] + ' clochettes' " />
+      <property prop="Prix" :value="element.price + ' clo.'" />
+      <property prop="Prix (Pollux)" :value="element['price-cj'] + ' clo.' " />
 
       <tag tagName="available" :isDisplayable="isAvailable" />
       <tag tagName="lastMonth" :isDisplayable="isLastMonth" />

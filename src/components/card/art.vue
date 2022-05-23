@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Price -->
-    <property prop="Prix de vente" :value="element['sell-price'] + ' clochettes'" />
+    <property prop="Prix de vente" :value="element['sell-price'] + ' clo.'" />
     <tag tagName="contrefacon" :isDisplayable="hasFake" />
 
   </div>

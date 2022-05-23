@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Price -->
-    <property prop="Prix" :value="element.price + ' clochettes'" />
+    <property prop="Prix" :value="element.price + ' clo.'" />
   </div>
 </template>
 

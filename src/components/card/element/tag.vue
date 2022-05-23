@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isDisplayable">{{ text }}</div>
+  <div v-if="isDisplayable" :class="tagName"> {{ text }}</div>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
         setTag: function() {
             switch(this.tagName) {
                 case "available": 
-                    this.text = "Actuellement capturable";
+                    this.text = "Capturable";
                     break; 
                 case "lastMonth": 
                     this.text = "Dernier mois !"
@@ -38,5 +38,21 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+div {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 17px;
+    margin: 5px;
+}
+
+.available {
+    background: #F9F2D7;
+    color: #BAAC77;
+}
+.lastMonth {
+    background: #FF9892;
+    color: #BE3B34;
+}
 </style>
