@@ -6,20 +6,17 @@
 </template>
 
 <script>
-
 // components
 import property from "./element/property.vue";
 
 export default {
   name: "fossil",
   components: {
-      property
+    property,
   },
   props: {
     element: Object,
-  }
+  },
 };
 </script>
 
-<style>
-</style>

@@ -4,6 +4,7 @@
     <img :src="elementData.image_uri" class="imgCard" style="" />
 
     <fish
+      class="listProperty"
       v-if="type == 'poissons'"
       :element="elementData"
       :isAvailable="isAvailable"
@@ -11,6 +12,7 @@
     />
 
     <insect
+      class="listProperty"
       v-else-if="type == 'insectes'"
       :element="elementData"
       :isAvailable="isAvailable"
@@ -18,21 +20,27 @@
     />
 
     <creature
+      class="listProperty"
       v-else-if="type == 'créatures marines'"
       :element="elementData"
       :isAvailable="isAvailable"
       :isLastMonth="isLastMonth"
     />
 
-    <fossil v-else-if="type == 'fossiles'" :element="elementData" />
+    <fossil
+      class="listProperty"
+      v-else-if="type == 'fossiles'"
+      :element="elementData"
+    />
 
     <art
+      class="listProperty"
       v-else-if="type == `oeuvres d'art`"
       :element="elementData"
       :hasFake="elementData.hasFake"
     />
 
-    <div :class="['state', background]">{{msgState}}</div>
+    <div :class="['state', background]">{{ msgState }}</div>
   </div>
   <div v-else>
     <p>Veuillez sélectionner un élément.</p>
@@ -74,7 +82,7 @@ export default {
       isElementSelected: false,
       border: "borderGrey",
       background: "bgGrey",
-      msgState: "A récupérer"
+      msgState: "A récupérer",
     };
   },
 
@@ -95,29 +103,28 @@ export default {
       this.isLastMonth = bool;
     });
     this.$root.$on("state", (state) => {
-      this.setState(state)
+      this.setState(state);
     });
   },
 
   methods: {
-    setState : function(state) {
-      switch(state) 
-      {
-        case "museum": 
+    setState: function (state) {
+      switch (state) {
+        case "museum":
           this.border = "borderGreen";
           this.background = "bgGreen";
           this.msgState = "Au musée";
-          break; 
+          break;
         case "captured":
-          this.border = "borderBlue"; 
+          this.border = "borderBlue";
           this.background = "bgBlue";
           this.msgState = "Capturé";
-          break; 
-        default: 
-          this.border = "borderGrey"; 
+          break;
+        default:
+          this.border = "borderGrey";
           this.background = "bgGrey";
           this.msgState = "A récupérer";
-          break; 
+          break;
       }
     },
     getAData: async function (id) {
@@ -193,10 +200,33 @@ h2 {
   border-radius: 0 0 25px 25px;
 }
 
-.borderGrey {border-color: #bababa;}
-.borderBlue {border-color: #61cac6;}
-.borderGreen {border-color:  #4ec78c;}
-.bgGrey {background: #bababa;}
-.bgBlue {background: #61cac6;}
-.bgGreen {background: #4ec78c;}
+.borderGrey {
+  border-color: #bababa;
+}
+.borderBlue {
+  border-color: #61cac6;
+}
+.borderGreen {
+  border-color: #4ec78c;
+}
+.bgGrey {
+  background: #bababa;
+}
+.bgBlue {
+  background: #61cac6;
+}
+.bgGreen {
+  background: #4ec78c;
+}
+
+@media screen and (max-width: 948px) {
+  .card {
+    width: 90vw;
+    height: 50vh;
+  }
+  .listProperty {
+    height: 27vh;
+    overflow-y: scroll;
+  }
+}
 </style>

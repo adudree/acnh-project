@@ -39,7 +39,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 div {
-  display: inline-block; 
+  display: inline-block;
   margin: 5px;
   height: 35px;
 }
@@ -53,9 +53,9 @@ label {
   padding: 5px 10px;
   border-radius: 33px;
   transition: 0.3s;
-  background: #F9F2D7;
-  color: #B18465;
-  border: 2px solid #B18465;
+  background: #f9f2d7;
+  color: #b18465;
+  border: 2px solid #b18465;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
@@ -64,12 +64,18 @@ label:hover {
 }
 
 input:checked + label {
-  background: #B18465;
-  color: #F9F2D7;
-  border: 2px solid #F9F2D7;
+  background: #b18465;
+  color: #f9f2d7;
+  border: 2px solid #f9f2d7;
 }
 
 input:checked + label:hover {
   background: #997055;
+}
+
+@media screen and (max-width: 948px) {
+  div {
+    margin: 2px 0;
+  }
 }
 </style>

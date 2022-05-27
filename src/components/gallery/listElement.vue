@@ -80,10 +80,8 @@ export default {
   grid-template-columns: 0.3fr repeat(3, 1fr);
   grid-template-rows: 100% repeat(4, 1fr);
   grid-column-gap: 10px;
-
   background: #e8c7b1;
   border: 2px solid #ba9173;
-  
   border-radius: 30px;
   font-weight: 600;
   font-size: 18px;
@@ -118,6 +116,17 @@ p {
 
 .state {
   grid-area: 1 / 4 / 2 / 5;
+}
+
+@media screen and (max-width: 948px) {
+  .dabutton {
+    width: 80vw;
+  }
+}
+@media screen and (max-width: 640px) {
+  .tag {
+    display: none;
+  }
 }
 
 

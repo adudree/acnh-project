@@ -3,7 +3,6 @@
     <!-- Price -->
     <property prop="Prix de vente" :value="element['sell-price'] + ' clo.'" />
     <tag tagName="contrefacon" :isDisplayable="hasFake" />
-
   </div>
 </template>
 
@@ -15,16 +14,12 @@ import tag from "./element/tag.vue";
 export default {
   name: "art",
   components: {
-      property,
-      tag
+    property,
+    tag,
   },
   props: {
     element: Object,
-    hasFake: Boolean
-  }
+    hasFake: Boolean,
+  },
 };
 </script>
-
-<style>
-
-</style>

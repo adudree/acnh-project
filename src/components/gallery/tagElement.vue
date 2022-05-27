@@ -1,6 +1,6 @@
 <template>
   <div :class="[state, tagClass]" :id="id">
-    <p >{{ msg }}</p>
+    <p>{{ msg }}</p>
   </div>
 </template>
 
@@ -21,9 +21,9 @@ export default {
       default: null,
     },
     state: {
-        type: String,
-        default: null
-    }
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -34,7 +34,6 @@ export default {
         captured: "Inventaire",
         museum: "Au musée",
       },
-
     };
   },
   watch: {
@@ -53,7 +52,6 @@ export default {
       this.msg = "capturable";
     }
   },
-
 };
 </script>
 

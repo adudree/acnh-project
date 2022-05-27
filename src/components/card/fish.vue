@@ -13,33 +13,27 @@
       prop="Heure"
       :value="generalTranslation.hour[element.availability['time']]"
     />
-      <!-- Location  -->
-      <property
-        prop="Lieu"
-        :value="
-          translation.location[element.availability['location']]
-        "
-      />
+    <!-- Location  -->
+    <property
+      prop="Lieu"
+      :value="translation.location[element.availability['location']]"
+    />
 
+    <!-- Size -->
+    <property prop="Taille" :value="translation.size[element.shadow]" />
 
-      <!-- Size -->
-      <property
-        prop="Taille"
-        :value="translation.size[element.shadow]"
-      />
-      
-      <!-- Rarity -->
-      <property
-        prop="Rareté"
-        :value="generalTranslation.rarity[element.availability['rarity']]"
-      />
+    <!-- Rarity -->
+    <property
+      prop="Rareté"
+      :value="generalTranslation.rarity[element.availability['rarity']]"
+    />
 
-      <!-- Price -->
-      <property prop="Prix" :value="element.price + ' clo.'" />
-      <property prop="Prix (Pollux)" :value="element['price-cj'] + ' clo.' " />
+    <!-- Price -->
+    <property prop="Prix" :value="element.price + ' clo.'" />
+    <property prop="Prix (Pollux)" :value="element['price-cj'] + ' clo.'" />
 
-      <tag tagName="available" :isDisplayable="isAvailable" />
-      <tag tagName="lastMonth" :isDisplayable="isLastMonth" />
+    <tag tagName="available" :isDisplayable="isAvailable" />
+    <tag tagName="lastMonth" :isDisplayable="isLastMonth" />
   </div>
 </template>
 
@@ -50,19 +44,19 @@ import translation from "@/assets/translation.json";
 // components
 import tableMonth from "./element/tableMonth.vue";
 import property from "./element/property.vue";
-import tag from "./element/tag.vue"
+import tag from "./element/tag.vue";
 
 export default {
   name: "fish",
   components: {
     tableMonth,
     property,
-    tag
+    tag,
   },
   props: {
     element: Object,
-    isAvailable: Boolean, 
-    isLastMonth: Boolean
+    isAvailable: Boolean,
+    isLastMonth: Boolean,
   },
   data() {
     return {
@@ -72,6 +66,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

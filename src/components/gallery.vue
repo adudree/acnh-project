@@ -8,7 +8,12 @@
       <filters nameFilter="identifier" msg="Identifiant" v-model="sortBy" />
       <filters nameFilter="name" msg="Nom" v-model="sortBy" />
       <filters nameFilter="price" msg="Prix" v-model="sortBy" />
-      <input type="text" v-model="search" placeholder="Rechercher..." class="searchBar" />
+      <input
+        type="text"
+        v-model="search"
+        placeholder="Rechercher..."
+        class="searchBar"
+      />
 
       <br />
       <label>Sélectionner :</label>
@@ -30,7 +35,6 @@
         v-model="selectBy"
         v-if="isBebetopedie"
       />
-
     </div>
 
     <div v-if="sortedList.length" id="liste">
@@ -317,15 +321,13 @@ h1 {
 }
 
 ::-webkit-scrollbar {
-  width: 2em; /* Total width including `border-width` of scrollbar thumb */
   height: 0;
 }
 ::-webkit-scrollbar-thumb {
   height: 1em;
-  border: 0.5em solid rgba(0, 0, 0, 0); /* Transparent border together with `background-clip: padding-box` does the trick */
   background-clip: padding-box;
   -webkit-border-radius: 1em;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: #c0c0c0;
   -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.025);
 }
 ::-webkit-scrollbar-button {
@@ -336,6 +338,10 @@ h1 {
 ::-webkit-scrollbar-corner {
   background-color: transparent;
 }
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #fff;
+}
 
 .searchBar {
   border: none;
@@ -343,6 +349,20 @@ h1 {
   font-family: "Mali", cursive;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
   padding: 5px 10px;
-  margin: 0 30px ;
+  margin: 0 30px;
+  display: inline-block;
+}
+
+@media screen and (max-width: 948px) {
+  .searchBar {
+    margin: 0 5px;
+    width: 100px;
+  }
+  label {
+    display: none;
+  }
+  .trier {
+    width: 90vw;
+  }
 }
 </style>

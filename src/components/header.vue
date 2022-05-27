@@ -18,15 +18,20 @@ export default {
   data() {
     return {
       type: "poissons",
-      items: ["poissons", "insectes", "créatures marines", "fossiles", 'oeuvres d\'art'],
+      items: [
+        "poissons",
+        "insectes",
+        "créatures marines",
+        "fossiles",
+        "oeuvres d'art",
+      ],
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     selectItem: function (item) {
       this.type = item;
-      this.$root.$emit("selected-menu", item)
+      this.$root.$emit("selected-menu", item);
     },
   },
 };
@@ -38,7 +43,7 @@ export default {
 }
 
 .head * {
-    flex-grow: 1;
+  flex-grow: 1;
   text-align: center;
   padding: 20px;
   transition: 0.2s;
@@ -53,5 +58,11 @@ export default {
 .selectedMenu {
   color: salmon;
   border-bottom: 3px solid salmon;
+}
+
+@media screen and (max-width: 640px) {
+  .head * {
+    padding: 5px;
+  }
 }
 </style>

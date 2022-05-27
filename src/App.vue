@@ -58,7 +58,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Mali", cursive;
-  background: #F5EDE7;
+  background: #f5ede7;
 }
 
 #app {
@@ -89,5 +89,21 @@ body {
 }
 #footer {
   grid-area: footer;
+}
+
+@media screen and (max-width: 948px) {
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.3fr 3fr 2fr 0.2fr;
+
+    grid-template-areas:
+      "header"
+      "view"
+      "gallery"
+      "footer";
+  }
+  #gallery {
+    overflow-y: hidden;
+  }
 }
 </style>

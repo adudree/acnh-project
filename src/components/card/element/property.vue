@@ -17,28 +17,28 @@ export default {
 
 <style scoped>
 .property {
-    display: flex;
-    margin: 5px;
-    align-items: stretch;
-    justify-content: space-evenly;
+  display: flex;
+  margin: 5px;
+  align-items: stretch;
+  justify-content: space-evenly;
 }
 
 .property * {
-    padding: 5px 20px;
-    flex-grow: 1; 
-    border-radius: 17px;
-    max-width: 170px;
-    margin: 5px;
-    font-size: 1em;
+  padding: 5px 20px;
+  flex-grow: 1;
+  border-radius: 17px;
+  max-width: 170px;
+  margin: 5px;
+  font-size: 1em;
 }
 
 .propName {
-    background: #B18465;
-    color: #F9F2D7;
-    border: 2px solid #F9F2D7;
+  background: #b18465;
+  color: #f9f2d7;
+  border: 2px solid #f9f2d7;
 }
 
 .value {
-    background: #F9F2D7;
+  background: #f9f2d7;
 }
 </style>

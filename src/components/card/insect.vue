@@ -27,10 +27,7 @@
 
     <!-- Price -->
     <property prop="Prix" :value="element.price + ' clo.'" />
-    <property
-      prop="Prix (Djason)"
-      :value="element['price-flick'] + ' clo.'"
-    />
+    <property prop="Prix (Djason)" :value="element['price-flick'] + ' clo.'" />
 
     <tag tagName="available" :isDisplayable="isAvailable" />
     <tag tagName="lastMonth" :isDisplayable="isLastMonth" />
@@ -66,6 +63,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>
